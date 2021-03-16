@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <link rel="icon" href="img/titicon.png">
+    <title>为什么太阳会害羞 - Ryan's Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        *::selection {
+            background: rgba(255, 255, 255, .5);
+        }
+
+        body {
+            height: 100%;
+            width: 100%;
+            background: var(--bodybg);
+            background-attachment: fixed;
+            overflow: hidden;
+            min-width: 300px;
+        }
+
+        [head] {
+            background: var(--background);
+            backdrop-filter: var(--sad);
+            height: 50px;
+            line-height: 50px;
+            box-shadow: var(--shadow);
+            transition: all .5s;
+            user-select: none;
+            border-bottom: #444 solid 1px;
+        }
+
+        [head]>div {
+            max-width: 960px;
+            height: 100%;
+            margin: auto;
+            overflow: hidden;
+            padding: 0 20px;
+            max-width: 960px;
+        }
+
+        [title] {
+            width: calc(100% - 180px);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            padding: 0 10px 0 40px;
+            color: black;
+            background: url(img/titicon.png) no-repeat left center;
+            background-size: 30px 30px;
+            transition: all .5s;
+        }
+
+        [floatSpan] {
+            float: right;
+        }
+
+        [floatSpan] span {
+            color: black;
+            transition: all .3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px dashed rgba(0, 0, 0, .3);
+        }
+
+        [floatSpan] span:hover {
+            background: rgba(255, 255, 255, .3);
+            border-radius: 5px;
+            border: 1px dashed rgba(0, 0, 0, 0);
+        }
+
+        [main] {
+            margin: 0 auto;
+            overflow-y: scroll;
+            height: calc(100% - 51px);
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            min-width: 300px;
+        }
+
+        /* [main]::-webkit-scrollbar {
+            display: none;
+            width: 5px;
+            color: #444;
+            background-color: #444;  
+        } */
+
+        /*定义滚动条大小和背景*/
+        [main]::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        /*定义滚动条轨道 内阴影+圆角*/
+        /* [main]::-webkit-scrollbar-track {} */
+
+        /*定义滑块 内阴影+圆角*/
+        [main]::-webkit-scrollbar-thumb {
+            border-radius: 2px;
+            background-color: rgba(255,255,255, 1);
+        }
+
+
+        [main]>div {
+            padding-top: 10px;
+            margin: 0 auto;
+            max-width: 1000px;
+        }
+
+        [box] {
+            background: var(--background);
+            backdrop-filter: var(--sad);
+            margin: 0 10px 10px;
+            border-radius: 10px;
+            padding: 30px;
+            line-height: 2;
+            transition: all 1s;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        [box]>[h1] {
+            line-height: 1.5;
+            font-size: 24px;
+            padding: 5px 0;
+            border-bottom: 1px black solid;
+        }
+
+        [box]>[h2] {
+            color: #444;
+            line-height: 1.5;
+            font-size: 14px;
+            padding: 5px 0 15px;
+            user-select: none;
+        }
+
+        [box]>pre {
+            font-family: 'microsoft yahei';
+            font-size: 16px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        [link] {
+            text-align: center;
+        }
+
+        [links] {
+            display: block;
+            text-decoration: none;
+            color: black;
+            font-size: 20px;
+            user-select: none;
+            background: var(--background);
+            backdrop-filter: var(--sad);
+            margin: 0 10px 10px;
+            border-radius: 10px;
+            padding: 30px;
+            line-height: 2;
+            transition: all 1s;
+            box-shadow: var(--shadow);
+        }
+
+        [links]>img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+
+        code {
+            border: 1px dashed rgba(0, 0, 0, .3);
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: block;
+            width: auto;
+            font-size: 16px;
+        }
+
+        [tagDiv] {
+            font-size: 14px;
+            background: rgba(255, 255, 255, .5);
+            border-radius: 5px;
+            padding: 2px 10px;
+            margin: 0 8px 0 0;
+            display: inline-block;
+        }
+
+        [v-cloak] {
+            display: none
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <div head>
+            <div>
+
+                <div @click="status = 1" title>
+                    为什么太阳会害羞呐 - Ryan's Blog
+                </div>
+                <div floatSpan>
+                    <span @click="status = 2">友链</span>
+                    <span @click="status = 3">关于</span>
+                </div>
+            </div>
+        </div>
+
+        <div main v-cloak>
+
+            <div v-show="status == 1">
+                <div box v-for="item in list">
+                    <div h1>{{item.title}} </div h1>
+                    <div h2>
+                        <div tagDiv v-for="tag in item.tag">{{tag}}</div>由 {{item.author}} 发布于 {{item.date}}
+                    </div h2>
+
+                    <pre v-html="item.content"></pre>
+                </div>
+            </div>
+
+            <div v-show="status == 2" link>
+                <a href="http://blog.whbbit.cn/" links>
+                    <img src="https://whbbit-picture.oss-cn-beijing.aliyuncs.com/img/avatar.jpg" alt="">朽月
+                </a>
+            </div>
+
+            <div v-show="status == 3">
+                <div box>
+                    <h2>关于我</h2>
+                    <pre>前端小白一个, 在此记录点滴想法</pre>
+                </div>
+                <div box>
+                    <pre>陪人聊天, 每字6毛, 标点符号半价收费, 千字以上打八折! 
+先付款, 后聊天, 款到即聊. 对待非专业人士, 偶不承担主动交谈业务. 网络虚假, 若受伤,受骗, 偶不承担任何责任.</pre>
+                </div>
+                <div box>
+                    <h2>联系方式</h2>
+                    <pre>邮箱: Ryan-rain@outlook.com</pre>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="data.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                list: data,
+                status: 1
+            }
+        })
+
+
+        let bgimg = Math.ceil(Math.random() * 4);
+
+        let color = `--sad: blur(50px);
+            --shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            --background: rgba(255, 255, 255, .5);
+            --bodybg: url(img/${bgimg}.jpg) no-repeat center/cover;
+    `
+        document.querySelector(':root').setAttribute('style', color)
+    </script>
+</body>
+
+</html>
